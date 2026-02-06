@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📱 手机麦克风中转站</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            color: white;
+        }
+        
+        .container {
+            text-align: center;
+            max-width: 500px;
+        }
+        
+        h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 16px;
+            opacity: 0.9;
+            margin-bottom: 30px;
+        }
+        
+        .card {
+            background: rgba(255,255,255,0.2);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 20px;
+        }
+        
+        .card h2 {
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .card p {
+            font-size: 14px;
+            opacity: 0.9;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 15px 30px;
+            font-size: 18px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+            margin: 5px;
+        }
+        
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+        }
+        
+        .btn-mobile { background: linear-gradient(135deg, #4CAF50 0%, #8BC34A 100%); }
+        .btn-pc { background: linear-gradient(135deg, #2196F3 0%, #03A9F4 100%); }
+        .btn-voice { background: linear-gradient(135deg, #FF9800 0%, #FFC107 100%); }
+        
+        .info {
+            font-size: 12px;
+            opacity: 0.7;
+            margin-top: 30px;
+            line-height: 1.8;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📱 手机麦克风中转站</h1>
+        <p class="subtitle">把手机变成Mac大白的麦克风</p>
+        
+        <div class="card">
+            <h2>🔗 选择你的角色</h2>
+            <p>点击下方按钮开始：</p>
+            
+            <a href="/mobile.html" class="btn btn-mobile">
+                📱 我是手机
+                <br><small>录音并发送</small>
+            </a>
+            
+            <a href="/pc.html" class="btn btn-pc">
+                🖥️ 我是电脑
+                <br><small>接收并处理</small>
+            </a>
+        </div>
+        
+        <div class="card">
+            <h2>🎙️ 或者直接用Mac大白</h2>
+            <p>使用完整的语音对话系统：</p>
+            
+            <a href="http://localhost:8091" class="btn btn-voice" target="_blank">
+                🎤 Mac大白语音对话
+                <br><small>完整功能</small>
+            </a>
+        </div>
+        
+        <div class="info">
+            <p>💡 使用说明：</p>
+            <p>1. 电脑先打开"我是电脑"</p>
+            <p>2. 手机打开"我是手机"</p>
+            <p>3. 手机点击🎤开始录音</p>
+            <p>4. 音频会实时传到电脑</p>
+            <p>5. Mac大白会语音回复！</p>
+        </div>
+    </div>
+</body>
+</html>
