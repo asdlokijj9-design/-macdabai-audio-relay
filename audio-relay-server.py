@@ -12,28 +12,28 @@
     电脑端：http://你的IP:5000/pc.html
 """
 
-import os
-import json
-import base64
-import threading
-from flask import Flask, render_template, request, jsonify
-from flask_socketio import SocketIO, emit
+导入 os
+导入 json
+导入 base64
+导入 threading
+从 flask 导入 Flask、render_template、request、jsonify
+从 flask_socketio import SocketIO, emit
 
 # ============ 配置 ============
-PORT = int(os.environ.get('PORT', 5000))
-DEBUG = os.environ.get('DEBUG', 'False').lower() == 'true'
+端口 =int(os.environ.get(('PORT'), 5000))
+DEBUG = os.environ.get('DEBUG','False')lower=='true'
 
-app = Flask(__name__, template_folder="templates", static_folder="static")
-app.config['SECRET_KEY'] = '手机麦克风中转'
-socketio = SocketIO(app, cors_allowed_origigns="*", async_mode='threading')
+应用 =Flask(__name__, template_folder="templates", static_folder="static")
+应用.config['SECRET_KEY'] = '手机麦克风中转'
+套接字IO =SocketIO(app, cors_allowed_origigns="*", async_mode='threading')
 
 # ============ 状态管理 ============
-connected_devices = {
+已连接设备 ={
     'mobile': False,
     'pc': False
 }
 
-audio_buffer = []
+音频缓冲区 =[]
 buffer_lock = threading.Lock()
 buffer_max_size = 100  # 最多保留100个音频块
 
@@ -49,7 +49,7 @@ def mobile_page():
 
 @app.route('/pc.html')
 def pc_page():
-    return render_template('pc.html')
+    返回 渲染模板
 
 @app.route('/status')
 def status():
@@ -73,16 +73,16 @@ def handle_disconnect():
 @socketio.on('register_mobile')
 def register_mobile():
     connected_devices['mobile'] = True
-    print('📱 手机已连接')
+    打印(' 手机已连接')
     emit('status_update', {
         'mobile_connected': True,
         'pc_connected': connected_devices['pc']
     }, broadcast=True)
 
 @socketio.on('register_pc')
-def register_pc():
-    connected_devices['pc'] = True
-    print('🖥️ 电脑已连接')
+定义 注册_pc():
+已连接设备['电脑'] = True
+    打印('️ 电脑已连接')
     emit('status_update', {
         'mobile_connected': connected_devices['mobile'],
         'pc_connected': True
@@ -91,33 +91,32 @@ def register_pc():
 @socketio.on('audio_chunk')
 def handle_audio_chunk(data):
     """接收手机发送的音频块，转发给电脑"""
-    if connected_devices['pc']:
-        # 转发给电脑
-        emit('audio_to_pc', {
-            'audio': data['audio'],
-            'timestamp': data.get('timestamp', 0)
-        }, room='pc')
-        
-        # 存入缓冲区（供重连后使用）
-        with buffer_lock:
-            audio_buffer.append({
-                'audio': data['audio'],
-                'timestamp': data.get('timestamp', 0)
-            })
-            if len(audio_buffer) > buffer_max_size:
-                audio_buffer.pop(0)
+    # 广播给所有连接的客户端（包括电脑）
+    emit('audio_to_pc', {
+        'audio': 数据['audio'],
+        '时间戳': 数据.获取('时间戳', 0)
+    }, broadcast=True)
+    
+    # 存入缓冲区
+    带缓冲区锁：
+音频缓冲区.追加({
+            'audio': 数据['audio'],
+            '时间戳': 数据.获取('时间戳', 0)
+        })
+        如果音频缓冲区长度大于缓冲区最大大小：
+音频缓冲区.弹出(0)
 
 @socketio.on('get_buffer')
 def get_buffer():
     """电脑端请求获取缓冲区内容"""
-    with buffer_lock:
+    带缓冲区锁：
         return {'buffer': audio_buffer}
-    return {'buffer': []}
+    返回 
 
 @socketio.on('clear_buffer')
 def clear_buffer():
     """清空缓冲区"""
-    with buffer_lock:
+    带缓冲区锁：
         audio_buffer.clear()
     emit('buffer_cleared')
 
