@@ -23,7 +23,7 @@ from flask_socketio import SocketIO, emit
 PORT = int(os.environ.get('PORT', 5000))
 DEBUG = os.environ.get('DEBUG', 'False').lower() == 'true'
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder="templates", static_folder="static")
 app.config['SECRET_KEY'] = '手机麦克风中转'
 socketio = SocketIO(app, cors_allowed_origigns="*", async_mode='threading')
 
